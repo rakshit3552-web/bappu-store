@@ -1,0 +1,10 @@
+Bapu Bhai Collection - Online Admin
+1. Create a Supabase project.
+2. Run supabase-setup.sql in SQL Editor.
+3. Authentication > Users > create owner email/password.
+4. Project Settings > API: copy Project URL + anon/publishable key.
+5. Put them in BOTH index.html and admin.html.
+6. Upload index.html + admin.html to your hosting.
+
+The admin supports shop details, product CRUD, price/type editing and product image upload.
+IMPORTANT: never put the Supabase service-role/secret key in HTML. Use only the anon/publishable key.

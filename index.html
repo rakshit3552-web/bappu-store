@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#1B1430">
+<!-- EDIT ME: page title + description shown in Google / when link is shared -->
+<title>Bapu Bhai Collection — Shop via WhatsApp</title>
+<meta name="description" content="Browse our latest stock from Instagram Reels and order directly on WhatsApp.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Mukta:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1B1430;
+    --surface:#2A2145;
+    --surface-2:#241C3D;
+    --text:#F7EFE0;
+    --text-muted:#C9BEDD;
+    --marigold:#F4A93C;
+    --rani:#E14F82;
+    --mehendi:#7FAE49;
+    --whatsapp:#25D366;
+    --whatsapp-dark:#1DA851;
+    --radius:16px;
+    --maxw:1100px;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Mukta',sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3{font-family:'Baloo 2',sans-serif;margin:0;}
+  p{margin:0;}
+  a{color:inherit;}
+  button{font-family:inherit;}
+  img,svg{display:block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px;}
+
+  a:focus-visible,button:focus-visible{
+    outline:3px solid var(--marigold);
+    outline-offset:3px;
+  }
+
+  /* ---------- fairy lights ---------- */
+  .lights{position:relative;height:34px;overflow:hidden;}
+  .lights svg{width:100%;height:100%;}
+  .bulb{animation:twinkle 2.6s ease-in-out infinite;}
+  .bulb:nth-child(3n){animation-delay:.4s;}
+  .bulb:nth-child(3n+1){animation-delay:.9s;}
+  .bulb:nth-child(3n+2){animation-delay:1.4s;}
+  @keyframes twinkle{
+    0%,100%{opacity:.55;}
+    50%{opacity:1;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .bulb{animation:none;opacity:1;}
+  }
+
+  /* ---------- hero ---------- */
+  header.hero{
+    padding:18px 0 46px;
+    text-align:center;
+    background:
+      radial-gradient(60% 55% at 50% 0%, rgba(244,169,60,.14), transparent),
+      var(--bg);
+  }
+  .hero h1{
+    font-size:clamp(2.1rem,7vw,3.4rem);
+    font-weight:800;
+    letter-spacing:.2px;
+    margin-bottom:10px;
+  }
+  .hero .tagline{
+    color:var(--text-muted);
+    font-size:clamp(1rem,3vw,1.15rem);
+    max-width:480px;
+    margin:0 auto 26px;
+  }
+  .hero-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 22px;border-radius:999px;
+    font-weight:700;font-size:.98rem;text-decoration:none;
+    border:2px solid transparent;cursor:pointer;
+    transition:filter .15s ease;
+  }
+  .btn:hover{filter:brightness(1.08);}
+  .btn-primary{background:var(--whatsapp);color:#04220f;}
+  .btn-primary:hover{background:var(--whatsapp-dark);}
+  .btn-outline{background:transparent;border-color:rgba(247,239,224,.35);color:var(--text);}
+  .btn svg{width:19px;height:19px;flex:none;}
+
+  /* ---------- section heading ---------- */
+  .section{padding:44px 0;}
+  .section-heading{margin-bottom:22px;}
+  .section-heading h2{font-size:clamp(1.5rem,4vw,2.1rem);font-weight:700;}
+  .section-heading p{color:var(--text-muted);margin-top:6px;font-size:.98rem;}
+  .squiggle{width:86px;height:10px;margin-top:8px;}
+
+  /* ---------- filters ---------- */
+  .filters{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:26px;}
+  .filter-btn{
+    padding:8px 16px;border-radius:999px;font-size:.9rem;font-weight:600;
+    background:var(--surface);color:var(--text-muted);border:1px solid rgba(247,239,224,.12);
+    cursor:pointer;
+  }
+  .filter-btn.active{background:var(--marigold);color:#2b1a00;border-color:transparent;}
+
+  /* ---------- product grid ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:20px;
+  }
+  .tag-card{
+    background:var(--surface);
+    border-radius:var(--radius);
+    overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .tag-card:nth-child(4n+1){transform:rotate(-1.1deg);}
+  .tag-card:nth-child(4n+2){transform:rotate(.9deg);}
+  .tag-card:nth-child(4n+3){transform:rotate(-.6deg);}
+  .tag-card:nth-child(4n+4){transform:rotate(1.2deg);}
+
+  .tag-head{
+    position:relative;
+    padding:20px 16px 16px;
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+  }
+  .grommet{
+    position:absolute;top:10px;left:12px;
+    width:12px;height:12px;border-radius:50%;
+    border:2.5px solid rgba(255,255,255,.55);
+    background:rgba(0,0,0,.18);
+  }
+  .tag-icon{width:46px;height:46px;margin:6px 0 12px;color:rgba(255,255,255,.92);}
+  .tag-icon svg{width:100%;height:100%;}
+  .tag-name{font-size:1rem;font-weight:700;color:#221533;margin-bottom:6px;}
+  .tag-price{font-family:'Baloo 2',sans-serif;font-size:1.5rem;font-weight:800;color:#221533;}
+
+  .wa-buy{
+    margin-top:auto;
+    display:flex;align-items:center;justify-content:center;gap:7px;
+    padding:12px 10px;
+    background:var(--whatsapp);color:#04220f;
+    border:none;border-top:2px dashed rgba(4,34,15,.35);
+    font-weight:700;font-size:.9rem;cursor:pointer;
+  }
+  .wa-buy:hover{background:var(--whatsapp-dark);}
+  .wa-buy svg{width:17px;height:17px;flex:none;}
+
+  .product-image{width:100%;aspect-ratio:1/1;object-fit:cover;background:rgba(0,0,0,.15);}
+  .tag-head.has-image{padding:0;}
+  .tag-head.has-image .grommet{z-index:2;}
+  .tag-head.has-image .tag-icon{display:none;}
+  .tag-head.has-image .tag-name,.tag-head.has-image .tag-price{
+    position:absolute;left:12px;right:12px;margin:0;background:rgba(255,255,255,.88);
+    padding:4px 8px;border-radius:8px;
+  }
+  .tag-head.has-image .tag-name{bottom:10px;}
+  .tag-head.has-image .tag-price{bottom:48px;width:max-content;}
+  /* ---------- reels ---------- */
+  .reels-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:16px;
+    max-width:560px;
+  }
+  .reel-card{
+    aspect-ratio:9/16;
+    border-radius:18px;
+    position:relative;
+    overflow:hidden;
+    display:flex;align-items:center;justify-content:center;
+    text-decoration:none;
+  }
+  .reel-card:nth-child(1){background:linear-gradient(160deg,var(--marigold),var(--rani));}
+  .reel-card:nth-child(2){background:linear-gradient(160deg,var(--rani),var(--mehendi));}
+  .reel-card:nth-child(3){background:linear-gradient(160deg,var(--mehendi),var(--marigold));}
+  .reel-card::before{
+    content:"";position:absolute;top:10px;left:50%;transform:translateX(-50%);
+    width:34%;height:7px;border-radius:6px;background:rgba(0,0,0,.32);
+  }
+  .reel-play{
+    width:48px;height:48px;border-radius:50%;
+    background:rgba(255,255,255,.22);border:2px solid rgba(255,255,255,.85);
+    display:flex;align-items:center;justify-content:center;
+  }
+  .reel-play svg{width:18px;height:18px;margin-left:2px;}
+  .reels-caption{margin-top:14px;color:var(--text-muted);font-size:.92rem;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--surface-2);
+    padding:36px 0 110px;
+    text-align:center;
+  }
+  footer h3{font-size:1.3rem;margin-bottom:8px;}
+  footer .foot-line{color:var(--text-muted);font-size:.95rem;margin-bottom:4px;}
+  .foot-links{display:flex;gap:18px;justify-content:center;margin-top:18px;}
+  .foot-links a{display:flex;align-items:center;gap:7px;font-weight:600;font-size:.92rem;text-decoration:none;color:var(--text);}
+  .foot-links svg{width:20px;height:20px;}
+  .foot-note{margin-top:22px;color:var(--text-muted);font-size:.82rem;max-width:420px;margin-left:auto;margin-right:auto;}
+
+  /* ---------- floating whatsapp ---------- */
+  .float-wa{
+    position:fixed;
+    right:18px;
+    bottom:max(18px, env(safe-area-inset-bottom));
+    width:58px;height:58px;border-radius:50%;
+    background:var(--whatsapp);
+    display:flex;align-items:center;justify-content:center;
+    border:none;cursor:pointer;z-index:50;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  .float-wa svg{width:28px;height:28px;color:#04220f;}
+  .float-wa::before{
+    content:"";position:absolute;inset:-6px;border-radius:50%;
+    border:2px solid var(--whatsapp);opacity:.6;
+    animation:pulse 2.2s ease-out infinite;
+  }
+  @keyframes pulse{
+    0%{transform:scale(.85);opacity:.6;}
+    100%{transform:scale(1.35);opacity:0;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .float-wa::before{animation:none;display:none;}
+  }
+</style>
+</head>
+<body>
+
+<div class="lights" aria-hidden="true">
+  <svg viewBox="0 0 400 34" preserveAspectRatio="none">
+    <path d="M0,6 Q50,30 100,6 T200,6 T300,6 T400,6" fill="none" stroke="rgba(247,239,224,.18)" stroke-width="1.5"/>
+    <g>
+      <circle class="bulb" cx="18" cy="10" r="3.4" fill="#F4A93C" style="filter:drop-shadow(0 0 3px #F4A93C)"/>
+      <circle class="bulb" cx="52" cy="26" r="3.4" fill="#E14F82" style="filter:drop-shadow(0 0 3px #E14F82)"/>
+      <circle class="bulb" cx="86" cy="14" r="3.4" fill="#7FAE49" style="filter:drop-shadow(0 0 3px #7FAE49)"/>
+      <circle class="bulb" cx="120" cy="12" r="3.4" fill="#F4A93C" style="filter:drop-shadow(0 0 3px #F4A93C)"/>
+      <circle class="bulb" cx="154" cy="27" r="3.4" fill="#E14F82" style="filter:drop-shadow(0 0 3px #E14F82)"/>
+      <circle class="bulb" cx="188" cy="13" r="3.4" fill="#7FAE49" style="filter:drop-shadow(0 0 3px #7FAE49)"/>
+      <circle class="bulb" cx="222" cy="11" r="3.4" fill="#F4A93C" style="filter:drop-shadow(0 0 3px #F4A93C)"/>
+      <circle class="bulb" cx="256" cy="26" r="3.4" fill="#E14F82" style="filter:drop-shadow(0 0 3px #E14F82)"/>
+      <circle class="bulb" cx="290" cy="14" r="3.4" fill="#7FAE49" style="filter:drop-shadow(0 0 3px #7FAE49)"/>
+      <circle class="bulb" cx="324" cy="12" r="3.4" fill="#F4A93C" style="filter:drop-shadow(0 0 3px #F4A93C)"/>
+      <circle class="bulb" cx="358" cy="27" r="3.4" fill="#E14F82" style="filter:drop-shadow(0 0 3px #E14F82)"/>
+      <circle class="bulb" cx="392" cy="13" r="3.4" fill="#7FAE49" style="filter:drop-shadow(0 0 3px #7FAE49)"/>
+    </g>
+  </svg>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <h1 id="shopName">Bapu Bhai Collection</h1>
+    <p class="tagline" id="tagline">Jo Reels mein dekha, seedha WhatsApp pe mangwao.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" id="heroWaBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 14.2c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6 0a7 7 0 0 1-3.5-3c-.3-.5.3-.5.7-1.2.1-.2 0-.4 0-.5L9 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4C6.9 7.4 6 8.3 6 10s1.5 3.4 1.7 3.6c.2.2 2.9 4.5 7 6.1 3.5 1.4 3.7 1 4.4.9.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.4-.3-.7-.5z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.4l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>
+        Buy on WhatsApp
+      </button>
+      <a class="btn btn-outline ig-link" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+        Follow on Instagram
+      </a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="section wrap" id="catalog">
+    <div class="section-heading">
+      <h2>Latest Stock</h2>
+      <p>Sab items neeche diye gaye price mein available hain — click karke seedha order karo.</p>
+      <svg class="squiggle" viewBox="0 0 86 10" aria-hidden="true"><path d="M2,7 Q15,1 28,7 T54,7 T80,7" fill="none" stroke="var(--marigold)" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+
+    <div class="filters" id="filters">
+      <button class="filter-btn active" data-filter="all">Sab</button>
+      <button class="filter-btn" data-filter="299">₹299</button>
+      <button class="filter-btn" data-filter="399">₹399</button>
+      <button class="filter-btn" data-filter="499plus">₹499+</button>
+    </div>
+
+    <div class="grid" id="productGrid"></div>
+  </section>
+
+  <section class="section wrap" id="reels">
+    <div class="section-heading">
+      <h2>Reels Dekho</h2>
+      <p>Naye stock ke reels Instagram par daily aate hain.</p>
+      <svg class="squiggle" viewBox="0 0 86 10" aria-hidden="true"><path d="M2,7 Q15,1 28,7 T54,7 T80,7" fill="none" stroke="var(--rani)" stroke-width="3" stroke-linecap="round"/></svg>
+    </div>
+    <div class="reels-grid">
+      <a class="reel-card ig-link" href="#" target="_blank" rel="noopener"><span class="reel-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span></a>
+      <a class="reel-card ig-link" href="#" target="_blank" rel="noopener"><span class="reel-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span></a>
+      <a class="reel-card ig-link" href="#" target="_blank" rel="noopener"><span class="reel-play"><svg viewBox="0 0 24 24" fill="white"><path d="M8 5v14l11-7z"/></svg></span></a>
+    </div>
+    <p class="reels-caption">Poora video dekhne ke liye tap karo — Instagram pe khul jaega.</p>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <h3 id="shopNameFoot">Bapu Bhai Collection</h3>
+    <p class="foot-line" id="footCity">Your City</p>
+    <p class="foot-line" id="footHours">Mon–Sat, 10am – 8pm</p>
+    <div class="foot-links">
+      <a class="ig-link" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg>
+        <span id="igHandleText">@yourshophandle</span>
+      </a>
+      <a href="#" id="footWaLink">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z"/></svg>
+        WhatsApp
+      </a>
+    </div>
+    <p class="foot-note">Photos reels se liye gaye hain — colour/size stock ke hisaab se thoda alag ho sakta hai. Final confirmation WhatsApp par.</p><p style="margin-top:18px;font-size:.75rem;opacity:.45"><a href="admin.html" style="text-decoration:none">Owner Admin</a></p>
+  </div>
+</footer>
+
+<button class="float-wa" id="floatWaBtn" aria-label="Order on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2z"/></svg>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// =====================================================================
+// EDIT YOUR SHOP DETAILS HERE — everything above this line is markup
+// and everything below reads from CONFIG / PRODUCTS automatically.
+// =====================================================================
+const SUPABASE_URL = "https://xblpkukajxdenfypdcqg.supabase.co/rest/v1/";
+const SUPABASE_ANON_KEY = "sb_publishable_j-1eNtrAwVUO2iNgtJ512w_4VO4JV--";
+
+let supabaseClient = null;
+let CONFIG = {
+  shopName:"Bapu Bhai Collection",
+  tagline:"Jo Reels mein dekha, seedha WhatsApp pe mangwao.",
+  whatsappNumber:"91XXXXXXXXXX",
+  instagramUrl:"https://instagram.com/yourshophandle",
+  instagramHandle:"@yourshophandle",
+  city:"Your City",
+  hours:"Mon–Sat, 10am – 8pm"
+};
+let PRODUCTS = [];
+
+async function initBackend(){
+  if(!window.supabase || SUPABASE_URL.startsWith("PASTE_")){
+    renderProducts("all"); return false;
+  }
+  supabaseClient=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);
+  try{
+    const {data:s,error:se}=await supabaseClient.from("shop_settings").select("*").eq("id",1).maybeSingle();
+    if(se) throw se;
+    if(s) CONFIG={shopName:s.shop_name||CONFIG.shopName,tagline:s.tagline||CONFIG.tagline,
+      whatsappNumber:s.whatsapp_number||CONFIG.whatsappNumber,instagramUrl:s.instagram_url||CONFIG.instagramUrl,
+      instagramHandle:s.instagram_handle||CONFIG.instagramHandle,city:s.city||CONFIG.city,hours:s.hours||CONFIG.hours};
+    const {data:p,error:pe}=await supabaseClient.from("products").select("*").order("sort_order",{ascending:true}).order("id",{ascending:true});
+    if(pe) throw pe;
+    PRODUCTS=p||[];
+    return true;
+  }catch(e){console.error(e);alert("Online shop data load nahi ho pa raha. Supabase setup/check karein.");return false}
+}
+
+const ICON_PATHS = {
+  tunic:  "M32,6 C29,6 26,8 24,11 L15,17 L20,25 L26,20 L26,34 C26,46 23,52 20,58 L44,58 C41,52 38,46 38,34 L38,20 L44,25 L49,17 L40,11 C38,8 35,6 32,6 Z",
+  shirt:  "M32,8 L28,4 L24,8 L15,15 L20,23 L26,18 L26,58 L38,58 L38,18 L44,23 L49,15 L40,8 L36,4 Z",
+  saree:  "M32,8 L50,20 C46,34 48,48 54,58 L10,58 C16,48 18,34 14,20 Z",
+  frock:  "M32,8 C29,8 27,10 26,13 L18,18 L22,26 L27,22 L20,58 L44,58 L37,22 L42,26 L46,18 L38,13 C37,10 35,8 32,8 Z",
+  pants:  "M20,8 L44,8 L46,26 L42,58 L34,58 L32,30 L30,58 L22,58 L18,26 Z",
+  scarf:  "M8,22 C20,10 30,34 42,20 C50,12 56,18 58,24 C48,28 44,20 38,26 C30,34 22,14 12,28 Z"
+};
+const TYPE_ICON = { kurti:"tunic", suit:"tunic", saree:"saree", shirt:"shirt", frock:"frock", palazzo:"pants", jeans:"pants", dupatta:"scarf" };
+const TAG_COLORS = ["var(--marigold)","var(--rani)","var(--mehendi)"];
+
+function waIcon(){
+  return '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 14.2c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.1-.3.2-.6 0a7 7 0 0 1-3.5-3c-.3-.5.3-.5.7-1.2.1-.2 0-.4 0-.5L9 7c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.4C6.9 7.4 6 8.3 6 10s1.5 3.4 1.7 3.6c.2.2 2.9 4.5 7 6.1 3.5 1.4 3.7 1 4.4.9.7-.1 2.1-.9 2.4-1.7.3-.8.3-1.5.2-1.7-.1-.2-.4-.3-.7-.5z"/><path d="M12 2a10 10 0 0 0-8.6 15L2 22l5.1-1.3A10 10 0 1 0 12 2zm0 18.2c-1.7 0-3.4-.5-4.8-1.4l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 20.2 12 8.2 8.2 0 0 1 12 20.2z"/></svg>';
+}
+
+let CONFIG = loadConfig();
+let PRODUCTS = loadProducts();
+
+function loadConfig(){
+  try { return {...DEFAULT_CONFIG, ...JSON.parse(localStorage.getItem("shopConfig") || "{}")}; }
+  catch(e){ return {...DEFAULT_CONFIG}; }
+}
+function loadProducts(){
+  try { return JSON.parse(localStorage.getItem("shopProducts") || "null") || [...DEFAULT_PRODUCTS]; }
+  catch(e){ return [...DEFAULT_PRODUCTS]; }
+}
+
+function renderProducts(filter){
+  const grid=document.getElementById("productGrid"); grid.innerHTML="";
+  PRODUCTS.forEach((p,i)=>{
+    const match=filter==="all"?true:filter==="499plus"?Number(p.price)>=499:Number(p.price)===Number(filter);
+    if(!match)return;
+    const iconKey=TYPE_ICON[p.type]||"tunic", color=TAG_COLORS[i%TAG_COLORS.length];
+    const card=document.createElement("div"); card.className="tag-card";
+    const image=p.image_url?`<img class="product-image" src="${escapeHtml(p.image_url)}" alt="${escapeHtml(p.name)}" loading="lazy">`:`<div class="tag-icon"><svg viewBox="0 0 64 64"><path d="${ICON_PATHS[iconKey]}" fill="currentColor"/></svg></div>`;
+    card.innerHTML=`<div class="tag-head ${p.image_url?"has-image":"no-image"}" style="background:${color}">
+      <span class="grommet"></span>${image}<p class="tag-name">${escapeHtml(p.name)}</p><p class="tag-price">₹${Number(p.price)||0}</p>
+      </div><button class="wa-buy">${waIcon()} Buy on WhatsApp</button>`;
+    card.querySelector(".wa-buy").addEventListener("click",()=>orderOnWhatsApp(p.name,p.price));
+    grid.appendChild(card);
+  });
+}
+function escapeHtml(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+
+function orderOnWhatsApp(name, price){
+  const msg = `Hi! Mujhe yeh item chahiye: ${name} (₹${price}). Kya stock available hai?`;
+  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+function genericWhatsApp(){
+  const msg = `Hi! Maine aapka Instagram page dekha, product details chahiye.`;
+  window.open(`https://wa.me/${CONFIG.whatsappNumber}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+if(!localStorage.getItem("shopConfig")) localStorage.setItem("shopConfig", JSON.stringify(CONFIG));
+if(!localStorage.getItem("shopProducts")) localStorage.setItem("shopProducts", JSON.stringify(PRODUCTS));
+
+document.addEventListener("DOMContentLoaded",async()=>{
+  await initBackend();
+  document.getElementById("shopName").textContent=CONFIG.shopName;
+  document.getElementById("shopNameFoot").textContent=CONFIG.shopName;
+  document.getElementById("tagline").textContent=CONFIG.tagline;
+  document.getElementById("footCity").textContent=CONFIG.city;
+  document.getElementById("footHours").textContent=CONFIG.hours;
+  document.getElementById("igHandleText").textContent=CONFIG.instagramHandle;
+  document.querySelectorAll(".ig-link").forEach(a=>a.href=CONFIG.instagramUrl);
+  document.getElementById("heroWaBtn").addEventListener("click",genericWhatsApp);
+  document.getElementById("floatWaBtn").addEventListener("click",genericWhatsApp);
+  document.getElementById("footWaLink").addEventListener("click",e=>{e.preventDefault();genericWhatsApp()});
+  document.querySelectorAll(".filter-btn").forEach(btn=>btn.addEventListener("click",()=>{
+    document.querySelectorAll(".filter-btn").forEach(b=>b.classList.remove("active"));btn.classList.add("active");renderProducts(btn.dataset.filter)
+  }));
+  renderProducts("all");
+});
+</script>
+</body>
+</html>

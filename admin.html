@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Owner Admin — Shop Manager</title>
+<style>
+:root{--bg:#171126;--card:#241c3d;--card2:#2d2450;--text:#f7efe0;--muted:#c9bedD;--accent:#f4a93c;--green:#25d366;--danger:#e14f82}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,sans-serif}.wrap{max-width:1100px;margin:auto;padding:24px 18px 60px}
+h1,h2{margin:0 0 10px}p{color:var(--muted)}.top{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:20px}
+.card{background:var(--card);border:1px solid #ffffff18;border-radius:18px;padding:20px;margin:16px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+label{display:block;font-weight:700;margin-bottom:6px}input,select{width:100%;padding:12px;border-radius:10px;border:1px solid #ffffff20;background:#171126;color:var(--text);font:inherit}
+button{border:0;border-radius:10px;padding:11px 15px;font-weight:700;cursor:pointer}.primary{background:var(--green);color:#04220f}.secondary{background:var(--accent);color:#2b1a00}.ghost{background:#ffffff12;color:var(--text)}.danger{background:var(--danger);color:white}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}.product{background:var(--card2);border-radius:14px;padding:14px;margin:12px 0}.productgrid{display:grid;grid-template-columns:1fr 120px 130px;gap:8px}
+.thumb{width:90px;height:90px;object-fit:cover;border-radius:10px;margin-bottom:8px;background:#171126}.notice{background:#f4a93c18;border:1px solid #f4a93c55;padding:12px;border-radius:12px}.status{margin-top:12px;font-weight:700}.error{color:#ff9db9}
+#login{max-width:440px;margin:70px auto}.hidden{display:none}@media(max-width:700px){.productgrid{grid-template-columns:1fr}.top h1{font-size:1.6rem}}
+</style></head><body><div class="wrap">
+<section id="login" class="card"><h1>Owner Admin</h1><p>Owner email/password se login karein.</p>
+<label>Email</label><input id="email" type="email" placeholder="owner@email.com"><label style="margin-top:12px">Password</label><input id="password" type="password">
+<div class="actions"><button class="primary" onclick="signIn()">Login</button></div><p id="loginStatus" class="status"></p></section>
+<section id="panel" class="hidden"><div class="top"><div><h1>Shop Admin Panel</h1><p>Products, prices, images aur shop details manage karein.</p></div>
+<div class="actions"><button class="ghost" onclick="window.open('index.html','_blank')">View Website</button><button class="ghost" onclick="signOut()">Logout</button></div></div>
+<div class="notice"><b>Online sync:</b> Save karte hi customer website ke liye database update hoga. Product image bhi online upload hogi.</div>
+<div class="card"><h2>Shop Details</h2><div class="grid">
+<div><label>Shop Name</label><input id="shopName"></div><div><label>Tagline</label><input id="tagline"></div><div><label>WhatsApp Number</label><input id="whatsappNumber"></div>
+<div><label>Instagram URL</label><input id="instagramUrl"></div><div><label>Instagram Handle</label><input id="instagramHandle"></div><div><label>City</label><input id="city"></div><div><label>Opening Hours</label><input id="hours"></div>
+</div><div class="actions"><button class="primary" onclick="saveConfig()">Save Shop Details</button></div></div>
+<div class="card"><h2>Products</h2><p>Name, price, type aur <b>image upload/change</b> sab yahin se.</p><div id="products"></div>
+<div class="actions"><button class="secondary" onclick="addProduct()">+ Add Product</button></div></div><p id="status" class="status"></p>
+</section></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script>
+const SUPABASE_ANON_KEY = "sb_publishable_j-1eNtrAwVUO2iNgtJ512w_4VO4JV--";
+const SUPABASE_URL = "https://xblpkukajxdenfypdcqg.supabase.co/rest/v1/";BUCKET="product-images";
+const sb=SUPABASE_URL.startsWith("PASTE_")?null:supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);let products=[];
+function status(t,e=false){const x=document.getElementById("status");x.textContent=t;x.className="status"+(e?" error":"");setTimeout(()=>x.textContent="",4000)}
+function signIn(){if(!sb){document.getElementById("loginStatus").textContent="Supabase URL/key add karein.";return}
+ const email=document.getElementById("email").value.trim(),password=document.getElementById("password").value;
+ sb.auth.signInWithPassword({email,password}).then(({error})=>{if(error)document.getElementById("loginStatus").textContent=error.message;else showPanel()})}
+async function signOut(){await sb.auth.signOut();location.reload()}
+async function showPanel(){document.getElementById("login").classList.add("hidden");document.getElementById("panel").classList.remove("hidden");await loadConfig();await loadProducts()}
+async function loadConfig(){const {data,error}=await sb.from("shop_settings").select("*").eq("id",1).maybeSingle();if(error)return status(error.message,true);
+ const m={shopName:data?.shop_name||"",tagline:data?.tagline||"",whatsappNumber:data?.whatsapp_number||"",instagramUrl:data?.instagram_url||"",instagramHandle:data?.instagram_handle||"",city:data?.city||"",hours:data?.hours||""};
+ Object.entries(m).forEach(([k,v])=>document.getElementById(k).value=v)}
+async function saveConfig(){const r={id:1,shop_name:v("shopName"),tagline:v("tagline"),whatsapp_number:v("whatsappNumber"),instagram_url:v("instagramUrl"),instagram_handle:v("instagramHandle"),city:v("city"),hours:v("hours"),updated_at:new Date().toISOString()};
+ const {error}=await sb.from("shop_settings").upsert(r);status(error?error.message:"Shop details saved ✓",!!error)}
+function v(id){return document.getElementById(id).value.trim()}
+async function loadProducts(){const {data,error}=await sb.from("products").select("*").order("sort_order",{ascending:true}).order("id",{ascending:true});if(error)return status(error.message,true);products=data||[];renderProducts()}
+function renderProducts(){const box=document.getElementById("products");box.innerHTML="";products.forEach(p=>{box.innerHTML+=`<div class="product">
+${p.image_url?`<img class="thumb" src="${esc(p.image_url)}">`:""}<div class="productgrid"><input id="n${p.id}" value="${esc(p.name)}" placeholder="Product name"><input id="p${p.id}" type="number" min="0" value="${Number(p.price)||0}"><select id="t${p.id}">${["kurti","suit","saree","shirt","frock","palazzo","jeans","dupatta"].map(t=>`<option ${p.type===t?"selected":""}>${t}</option>`).join("")}</select></div>
+<div style="margin-top:10px"><label>Product Image</label><input id="f${p.id}" type="file" accept="image/*"></div><div class="actions"><button class="primary" onclick="saveProduct(${p.id})">Save</button><button class="danger" onclick="deleteProduct(${p.id})">Delete</button></div></div>`})}
+async function addProduct(){const max=products.reduce((m,p)=>Math.max(m,Number(p.sort_order)||0),0);const {data,error}=await sb.from("products").insert({name:"New Product",price:299,type:"kurti",sort_order:max+1}).select().single();if(error)return status(error.message,true);products.push(data);renderProducts()}
+async function saveProduct(id){const cur=products.find(p=>p.id===id),file=document.getElementById("f"+id).files[0];let image_url=cur.image_url||null;
+ if(file){if(file.size>5*1024*1024)return status("Image 5MB se chhoti rakho.",true);const ext=(file.name.split(".").pop()||"jpg").toLowerCase(),path=`products/${id}-${Date.now()}.${ext}`;
+  const {error}=await sb.storage.from(BUCKET).upload(path,file,{upsert:true,contentType:file.type});if(error)return status(error.message,true);
+  image_url=sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl}
+ const row={name:v("n"+id),price:Number(document.getElementById("p"+id).value)||0,type:document.getElementById("t"+id).value,image_url};
+ const {error}=await sb.from("products").update(row).eq("id",id);if(error)return status(error.message,true);await loadProducts();status("Product saved ✓")}
+async function deleteProduct(id){if(!confirm("Is product ko delete karna hai?"))return;const {error}=await sb.from("products").delete().eq("id",id);if(error)return status(error.message,true);await loadProducts();status("Product deleted ✓")}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
+(async()=>{if(sb){const {data}=await sb.auth.getSession();if(data.session)showPanel()}})();
+</script></body></html>
